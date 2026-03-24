@@ -21,7 +21,7 @@ npm install
 ```bash
 cp .env.example .env
 ```
-- Windows cmd
+- `Windows cmd`
 ```bash
 copy .env.example .env
 ```
