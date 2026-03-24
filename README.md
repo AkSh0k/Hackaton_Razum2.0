@@ -16,9 +16,7 @@
 npm install
 ```
 
-2. Создайте файл `.env` на основе `.env.example`.
-
-Варианты команд:
+2. Создайте файл `.env` на основе `.env.example`:
 - `macOS / Linux`
 ```bash
 cp .env.example .env
