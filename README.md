@@ -16,10 +16,16 @@
 npm install
 ```
 
-2. Создайте `.env`:
+2. Создайте файл `.env` на основе `.env.example`.
 
+Варианты команд:
+- `macOS / Linux`
 ```bash
 cp .env.example .env
+```
+- Windows cmd
+```bash
+copy .env.example .env
 ```
 
 3. Убедитесь, что PostgreSQL запущен и ссылка БД `DATABASE_URL` в `env.example`  существует.
