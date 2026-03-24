@@ -22,7 +22,7 @@ npm install
 cp .env.example .env
 ```
 
-3. Убедитесь, что PostgreSQL запущен и база из `DATABASE_URL` существует.
+3. Убедитесь, что PostgreSQL запущен и ссылка БД `DATABASE_URL` в `env.example`  существует.
 
 Пример значения:
 
