@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 222 47% 5%;
+        --foreground: 210 40% 98%;
+        --card: 222 47% 8%;
+        --card-foreground: 210 40% 98%;
+        --popover: 222 47% 8%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 217 91% 60%;
+        --primary-foreground: 222 47% 5%;
+        --secondary: 222 47% 12%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 222 47% 12%;
+        --muted-foreground: 215 20% 55%;
+        --accent: 217 91% 60%;
+        --accent-foreground: 222 47% 5%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 222 47% 14%;
+        --input: 222 47% 14%;
+        --ring: 217 91% 60%;
+        --radius: 0.75rem;
+        --gold: 45 93% 58%;
+        --silver: 210 11% 71%;
+        --bronze: 25 75% 47%;
+        --sidebar-background: 222 47% 6%;
+        --sidebar-foreground: 210 40% 98%;
+        --sidebar-primary: 217 91% 60%;
+        --sidebar-primary-foreground: 222 47% 5%;
+        --sidebar-accent: 222 47% 12%;
+        --sidebar-accent-foreground: 210 40% 98%;
+        --sidebar-border: 222 47% 14%;
+        --sidebar-ring: 217 91% 60%;
+        --font-inter: 'Inter', sans-serif;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+    body {
+        @apply bg-background text-foreground font-inter;
+    }
+}
+
+@layer utilities {
+    .glow-blue {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+    .glow-gold {
+        box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+    }
+    .gradient-text {
+        @apply bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent;
+    }
+    .card-glass {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+}

@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  participant
+  organizer
+  observer
+  admin
+}
+
+enum EventStatus {
+  draft
+  upcoming
+  active
+  completed
+  cancelled
+}
+
+enum ParticipationStatus {
+  pending
+  verified
+  rejected
+}
+
+
+
+model User {
+  id               String          @id @default(cuid())
+  email            String          @unique
+  passwordHash     String
+  fullName         String
+  role             UserRole        @default(participant)
+  isApproved       Boolean         @default(true)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  profile          UserProfile?
+  organizedEvents  Event[]         @relation("OrganizerEvents")
+  participations   Participation[] @relation("ParticipantParticipations")
+  verifiedEntries  Participation[] @relation("VerifierParticipations")
+  feedbacks        Feedback[]
+}
+
+model UserProfile {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  city                String?
+  age                 Int?
+  bio                 String?
+  avatarUrl           String?
+  totalPoints         Int      @default(0)
+  totalEvents         Int      @default(0)
+  rank                String   @default("Bronze")
+  leaderboardPosition Int?
+  trustRating         Float?
+  eventsOrganized     Int      @default(0)
+  categories          String[] @default([])
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Event {
+  id                    String             @id @default(cuid())
+  title                 String
+  description           String?
+  date                  DateTime
+  endDate               DateTime?
+  category              String
+  difficultyCoefficient Float              @default(1)
+  basePoints            Int                @default(100)
+  location              String?
+  maxParticipants       Int?
+  status                EventStatus        @default(upcoming)
+  bonusDescription      String?
+  organizerId           String
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  organizer             User               @relation("OrganizerEvents", fields: [organizerId], references: [id], onDelete: Restrict)
+  participations        Participation[]
+  feedbacks             Feedback[]
+}
+
+model Participation {
+  id                    String              @id @default(cuid())
+  eventId               String
+  participantId         String
+  status                ParticipationStatus @default(pending)
+  pointsEarned          Int                 @default(0)
+  eventTitleSnapshot    String
+  participantName       String
+  participantEmail      String
+  eventDateSnapshot     DateTime
+  eventCategorySnapshot String
+  difficultyCoefficient Float               @default(1)
+  verifiedById          String?
+  verifiedAt            DateTime?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  event                 Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  participant           User                @relation("ParticipantParticipations", fields: [participantId], references: [id], onDelete: Cascade)
+  verifiedBy            User?               @relation("VerifierParticipations", fields: [verifiedById], references: [id], onDelete: SetNull)
+
+  @@unique([eventId, participantId])
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  userId    String
+  eventId   String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
